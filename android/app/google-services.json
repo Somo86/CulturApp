@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "977882780419",
+    "project_id": "culturapp-bcd1c",
+    "storage_bucket": "culturapp-bcd1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977882780419:android:417ae430593b2316b94f36",
+        "android_client_info": {
+          "package_name": "com.culturapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977882780419-4ffu69kh8ll73af5lipk8gp2anjleglv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9TaK8CSpHpBItdl1lZGlfRL22j5Kjw60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977882780419-4ffu69kh8ll73af5lipk8gp2anjleglv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
