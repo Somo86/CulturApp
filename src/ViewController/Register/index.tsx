@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { RegisterView } from '../../View/Register';
 import { UserTypeEnum } from '../../Model/Entities/User';
 import { RegisterviewModelType } from '../../ViewModel/Register';
+import { useHistory } from 'react-router-native';
 
 export enum ErrorTypesEnum {
   FORMERROR,
@@ -32,6 +33,7 @@ export const RegisterViewController = ({
     type: ErrorTypesEnum.NONE,
     code: '',
   });
+  const { push } = useHistory();
 
   const onRadioValueChange = (value: UserTypeEnum) => setUserType(value);
 
@@ -44,13 +46,21 @@ export const RegisterViewController = ({
   const onSubmit = async () => {
     try {
       // Creates a new user if it does not exists
-      const { additionalUserInfo } = await viewModel.signInOrCreate(
+      const { additionalUserInfo, user } = await viewModel.signInOrCreate(
         email,
         password,
       );
+      // saves user on DB
+      viewModel.addNewUser({
+        id: user.uid,
+        completeName: name,
+        type: userType,
+        email: email,
+      });
       setloggedInfo({ isNewUser: additionalUserInfo?.isNewUser });
+      // Move to LOGIN page
+      push('/');
     } catch (e: any) {
-      console.log(e.code);
       setError({
         type: ErrorTypesEnum.FIREBASEERROR,
         code: e.code,

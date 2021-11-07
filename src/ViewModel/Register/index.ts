@@ -1,6 +1,9 @@
 import { UserModelType } from '../../Model/UserModel';
 
-export type RegisterviewModelType = Pick<UserModelType, 'signInOrCreate'>;
+export type RegisterviewModelType = Pick<
+  UserModelType,
+  'signInOrCreate' | 'addNewUser'
+>;
 
 export const RegisterviewModel = (
   store: UserModelType,
@@ -10,7 +13,12 @@ export const RegisterviewModel = (
     password,
   ) => store.signInOrCreate(username, password);
 
+  const addNewUser: RegisterviewModelType['addNewUser'] = user => {
+    return store.addNewUser(user);
+  };
+
   return {
     signInOrCreate,
+    addNewUser,
   };
 };

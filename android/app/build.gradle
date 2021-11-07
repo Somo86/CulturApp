@@ -200,6 +200,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-analytics'
 
+    implementation 'com.google.firebase:firebase-database'
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }

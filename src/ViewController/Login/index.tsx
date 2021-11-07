@@ -36,7 +36,8 @@ export const LoginViewController: React.FC<LoginControllerProps> = ({
       await viewModel.signIn(email, password);
       // notify user for login success
       setloggedInfo({ success: true });
-      push('/');
+      // Move to HOME page
+      push('/home');
     } catch (e) {
       setError(ErrorTypes.LOGINERROR);
     }
