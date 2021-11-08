@@ -5,14 +5,20 @@ import {
   signInWithEmailAndPasswordType,
 } from '../services/Authentication';
 import { Database } from './Database';
-import { FirebaseDatabaseTypes } from '@react-native-firebase/database';
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { UserType } from './Entities/User';
 
-const USERS_PATH = '/users';
+const USERS_COLLECTION = 'users';
 
-type getUserType = (id: string) => FirebaseDatabaseTypes.Reference;
+type getUserType = (
+  id: string,
+) => Promise<
+  FirebaseFirestoreTypes.DocumentSnapshot<FirebaseFirestoreTypes.DocumentData>
+>;
 
-type addNewUserType = (user: UserType) => Promise<void>;
+type addNewUserType = (
+  user: UserType,
+) => Promise<FirebaseFirestoreTypes.DocumentReference>;
 
 export type UserModelType = {
   signInOrCreate: createUserWithEmailAndPasswordType;
@@ -32,10 +38,11 @@ export const UserModel = (): UserModelType => {
   const signIn: signInWithEmailAndPasswordType = (username, password) =>
     signInWithEmailAndPassword(username, password);
 
-  const getUser: getUserType = id => DB.ref(`${USERS_PATH}/${id}`);
+  const getUser: getUserType = id =>
+    DB.init.collection(USERS_COLLECTION).doc(id).get();
 
-  const addNewUser: addNewUserType = ({ id, ...rest }) =>
-    DB.ref(`${USERS_PATH}/${id}`).set(rest);
+  const addNewUser: addNewUserType = user =>
+    DB.init.collection(USERS_COLLECTION).add(user);
 
   return {
     signInOrCreate,

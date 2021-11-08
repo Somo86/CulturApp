@@ -46,13 +46,12 @@ export const RegisterViewController = ({
   const onSubmit = async () => {
     try {
       // Creates a new user if it does not exists
-      const { additionalUserInfo, user } = await viewModel.signInOrCreate(
+      const { additionalUserInfo } = await viewModel.signInOrCreate(
         email,
         password,
       );
       // saves user on DB
       viewModel.addNewUser({
-        id: user.uid,
         completeName: name,
         type: userType,
         email: email,

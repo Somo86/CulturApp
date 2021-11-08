@@ -1,22 +1,14 @@
-import {
-  firebase,
-  FirebaseDatabaseTypes,
-} from '@react-native-firebase/database';
-
-const DB_URL =
-  'https://culturapp-bcd1c-default-rtdb.europe-west1.firebasedatabase.app/';
+import firestore, {
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 
 type DatabaseAttr = {
-  ref: (path: string) => FirebaseDatabaseTypes.Reference;
+  init: FirebaseFirestoreTypes.Module;
 };
 type DatabaseType = () => DatabaseAttr;
 
 export const Database: DatabaseType = () => {
-  // creates a database reference on the defined path
-  const ref: DatabaseAttr['ref'] = reference =>
-    firebase.app().database(DB_URL).ref(reference);
-
   return {
-    ref,
+    init: firestore(),
   };
 };
