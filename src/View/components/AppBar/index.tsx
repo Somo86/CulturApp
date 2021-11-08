@@ -16,6 +16,7 @@ const ContainerView = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
+  background-color: white;
 `;
 
 export const AppBar: React.FC<AppBarProps> = ({ logo }) => {

@@ -9,7 +9,7 @@ const App = () => {
   return (
     <GestureHandlerRootView>
       <NativeRouter>
-        <Route exact path='/' component={LoginProvider} />
+        <Route exact path='/' component={HomeProvider} />
         <Route path='/register' component={RegisterProvider} />
         <Route path='/home' component={HomeProvider} />
       </NativeRouter>

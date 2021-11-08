@@ -34,7 +34,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
       )}
       renderStickyFooter={() => Footer}>
       <SafeAreaView
-        style={{ minHeight: windowHeight, backgroundColor: '#eee' }}>
+        style={{ minHeight: windowHeight, backgroundColor: '#fff' }}>
         {children}
       </SafeAreaView>
     </StickyHeaderFooterScrollView>

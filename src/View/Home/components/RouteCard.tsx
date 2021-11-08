@@ -1,0 +1,50 @@
+import React from 'react';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Card, View, Text } from 'react-native-ui-lib';
+import { avarage } from '../../../utils/maths';
+import { onPressType, RouteWithUserId } from '../../../ViewController/Home';
+
+type RouteCardProps = RouteWithUserId & { onPressCard: onPressType };
+
+export const RouteCard: React.FC<RouteCardProps> = ({
+  userId,
+  routeId,
+  title,
+  image,
+  creatorName,
+  place,
+  duration,
+  categoryId,
+  votes = [],
+  onPressCard,
+}) => {
+  const imageSource = image
+    ? { uri: image }
+    : require('../../../assets/images/empty.jpeg');
+  return (
+    <Card
+      height={190}
+      marginV-15
+      onPress={() => onPressCard({ userId, routeId })}>
+      <Card.Section
+        imageSource={imageSource}
+        imageStyle={{ width: '100%', height: 70 }}
+      />
+      <View padding-20>
+        <Text>{title}</Text>
+        <Text>{creatorName}</Text>
+        <View row centerV paddingV-4>
+          <Icon name='info' size={20} />
+          <Text marginL-5>{place} | </Text>
+          <Text>{categoryId}</Text>
+        </View>
+        <View row centerV paddingV-4>
+          <Icon name='alarm-on' size={20} />
+          <Text marginL-5>Durada aprox. {duration} hores | </Text>
+          <Text>{avarage(votes)}</Text>
+          <Icon name='star-rate' color='#fdd835' size={20} />
+        </View>
+      </View>
+    </Card>
+  );
+};
