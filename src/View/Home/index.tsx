@@ -1,48 +1,53 @@
 import React from 'react';
-import { View, Picker } from 'react-native-ui-lib';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { onPressType, RouteWithUserId } from '../../ViewController/Home';
+import { View } from 'react-native-ui-lib';
+import {
+  onPressCategoryType,
+  onPressType,
+  SelectedCityType,
+} from '../../ViewController/Home';
 import { AppLayout } from '../components/Layout';
 import { RouteCard } from './components/RouteCard';
-import cities from '../../assets/json/cities.json';
+import { Route } from '../../Model/Entities/Route';
+import { EmptyResults } from './components/EmptyResults';
+import { FilterSection } from './components/FilterSection';
 
-type HomeViewProps = {
-  routes: RouteWithUserId[];
+export type HomeViewProps = {
+  routes: Array<Route & { id: string }>;
   onPressCard: onPressType;
-  onChangeSelectCity: (x: string) => void;
-  selectedCity?: string;
+  onPressCategory: onPressCategoryType;
+  onChangeSelectCity: (x: SelectedCityType) => void;
+  selectedCity?: SelectedCityType;
 };
 
 export const HomeView: React.FC<HomeViewProps> = ({
   routes,
   selectedCity,
   onPressCard,
+  onPressCategory,
   onChangeSelectCity,
 }) => {
   return (
     <AppLayout showActionBar>
       <View>
-        <View paddingH-15>
-          <Picker
-            placeholder='Favorite Language'
-            showSearch
-            value={selectedCity}
-            onChange={onChangeSelectCity}
-            floatingPlaceholder
-            rightIconSource={Icon.getImageSourceSync('expand-more', 25)}>
-            {cities.list.map(city => (
-              <Picker.Item key={`option_${city}`} value={city} label={city} />
-            ))}
-          </Picker>
-        </View>
+        <FilterSection
+          onPressCategory={onPressCategory}
+          onChangeSelectCity={onChangeSelectCity}
+          selectedCity={selectedCity}
+        />
+      </View>
+      <View>
         <View marginH-15>
-          {routes.map(route => (
-            <RouteCard
-              key={`card_${route.routeId}`}
-              onPressCard={onPressCard}
-              {...route}
-            />
-          ))}
+          {routes.length ? (
+            routes.map(route => (
+              <RouteCard
+                key={`card_${route.id}`}
+                onPressCard={onPressCard}
+                {...route}
+              />
+            ))
+          ) : (
+            <EmptyResults />
+          )}
         </View>
       </View>
     </AppLayout>

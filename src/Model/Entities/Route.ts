@@ -8,4 +8,5 @@ export type Route = {
   votes: number[];
   image: string;
   creatorName: string;
+  creatorId: string;
 };

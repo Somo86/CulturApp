@@ -1,0 +1,11 @@
+{"list": [
+  {"label": "Tradicions", "icon": "emoji-nature", "id": 1},
+  {"label": "Bèl·lic", "icon": "whatshot", "id": 2},
+  {"label": "Llegendes", "icon": "theater-comedy", "id": 3},
+  {"label": "Terror", "icon": "adb", "id": 4},
+  {"label": "Modernisme", "icon": "local-florist", "id": 5},
+  {"label": "Música", "icon": "audiotrack", "id": 6},
+  {"label": "Gastronomia", "icon": "local-dining", "id": 7},
+  {"label": "Religió", "icon": "remove-red-eye", "id": 8},
+  {"label": "Dones", "icon": "pregnant-woman", "id": 9}
+]}

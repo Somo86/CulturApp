@@ -2,13 +2,13 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Card, View, Text } from 'react-native-ui-lib';
 import { avarage } from '../../../utils/maths';
-import { onPressType, RouteWithUserId } from '../../../ViewController/Home';
+import { onPressType } from '../../../ViewController/Home';
+import { Route } from '../../../Model/Entities/Route';
 
-type RouteCardProps = RouteWithUserId & { onPressCard: onPressType };
+type RouteCardProps = Route & { id: string } & { onPressCard: onPressType };
 
 export const RouteCard: React.FC<RouteCardProps> = ({
-  userId,
-  routeId,
+  id,
   title,
   image,
   creatorName,
@@ -22,10 +22,7 @@ export const RouteCard: React.FC<RouteCardProps> = ({
     ? { uri: image }
     : require('../../../assets/images/empty.jpeg');
   return (
-    <Card
-      height={190}
-      marginV-15
-      onPress={() => onPressCard({ userId, routeId })}>
+    <Card height={190} marginV-15 onPress={() => onPressCard({ routeId: id })}>
       <Card.Section
         imageSource={imageSource}
         imageStyle={{ width: '100%', height: 70 }}
