@@ -7,6 +7,7 @@ import {
 import { Database } from './Database';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { UserType } from './Entities/User';
+import { random } from '../utils/maths';
 
 const USERS_COLLECTION = 'users';
 
@@ -16,9 +17,7 @@ type getUserType = (
   FirebaseFirestoreTypes.DocumentSnapshot<FirebaseFirestoreTypes.DocumentData>
 >;
 
-type addNewUserType = (
-  user: UserType,
-) => Promise<FirebaseFirestoreTypes.DocumentReference>;
+type addNewUserType = (user: UserType) => Promise<void>;
 
 export type UserModelType = {
   signInOrCreate: createUserWithEmailAndPasswordType;
@@ -42,7 +41,7 @@ export const UserModel = (): UserModelType => {
     DB.init.collection(USERS_COLLECTION).doc(id).get();
 
   const addNewUser: addNewUserType = user =>
-    DB.init.collection(USERS_COLLECTION).add(user);
+    DB.init.collection(USERS_COLLECTION).doc(random().toString()).set(user);
 
   return {
     signInOrCreate,

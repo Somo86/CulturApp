@@ -5,7 +5,7 @@ export type Route = {
   duration: number;
   categoryId: number;
   place: string;
-  votes: number[];
+  votes: string[];
   image: string;
   creatorName: string;
   creatorId: string;
