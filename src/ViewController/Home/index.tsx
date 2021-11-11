@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-native';
 import { Route } from '../../Model/Entities/Route';
 import { snaptshotToData } from '../../utils/firebase';
 import { HomeView } from '../../View/Home';
@@ -21,6 +22,7 @@ export type RouteWithUserId = Route & { id: string };
 export const HomeViewController: React.FC<HomeViewControllerProps> = ({
   viewModel,
 }) => {
+  const { push } = useHistory();
   const [routes, setRoutes] = useState<Array<Route & { id: string }> | []>([]);
   const [selectedCity, setSelectedCity] = useState<SelectedCityType>();
   const [selectedCategory, setSelectedCategory] = useState<number>();
@@ -74,7 +76,7 @@ export const HomeViewController: React.FC<HomeViewControllerProps> = ({
     selectedCategory && fetchFilteredByCategories(selectedCategory);
   }, [selectedCity, selectedCategory]);
 
-  const onPressCard: onPressType = ({ routeId }) => {};
+  const onPressCard: onPressType = ({ routeId }) => push(`/route/${routeId}`);
 
   const onPressCategory: onPressCategoryType = (categoryId: number) =>
     setSelectedCategory(categoryId);

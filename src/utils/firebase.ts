@@ -10,3 +10,9 @@ export const snaptshotToData = <T = any>(
   });
   return data;
 };
+
+export const documentToData = (
+  document: FirebaseFirestoreTypes.DocumentSnapshot<FirebaseFirestoreTypes.DocumentData>,
+) => {
+  return document.data();
+};

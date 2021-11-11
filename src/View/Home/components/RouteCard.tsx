@@ -4,6 +4,7 @@ import { Card, View, Text } from 'react-native-ui-lib';
 import { avarage } from '../../../utils/maths';
 import { onPressType } from '../../../ViewController/Home';
 import { Route } from '../../../Model/Entities/Route';
+import { minutesToHours } from '../../../utils/time';
 
 type RouteCardProps = Route & { id: string } & { onPressCard: onPressType };
 
@@ -37,7 +38,9 @@ export const RouteCard: React.FC<RouteCardProps> = ({
         </View>
         <View row centerV paddingV-4>
           <Icon name='alarm-on' size={20} />
-          <Text marginL-5>Durada aprox. {duration} hores | </Text>
+          <Text marginL-5>
+            Durada aprox. {minutesToHours(duration)} hores |{' '}
+          </Text>
           <Text>{avarage(votes)}</Text>
           <Icon name='star-rate' color='#fdd835' size={20} />
         </View>
