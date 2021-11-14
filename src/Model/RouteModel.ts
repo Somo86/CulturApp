@@ -1,5 +1,6 @@
 import { Database } from './Database';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import { Route } from './Entities/Route';
 
 const ROUTES_COLLECTION = 'routes';
 
@@ -17,6 +18,7 @@ export type RouteModelType = {
     y: string,
   ) => Promise<FirebaseFirestoreTypes.QuerySnapshot>;
   getRouteById: (x: string) => Promise<FirebaseFirestoreTypes.DocumentSnapshot>;
+  updateRoute: (x: string, y: Route) => Promise<void>;
 };
 
 export const RouteModel = (): RouteModelType => {
@@ -43,11 +45,20 @@ export const RouteModel = (): RouteModelType => {
   const getRouteById = (id: string) =>
     DB.init.collection(ROUTES_COLLECTION).doc(id).get();
 
+  const updateRoute = (id: string, data: Route) =>
+    DB.init
+      .collection(ROUTES_COLLECTION)
+      .doc(id)
+      .update({
+        ...data,
+      });
+
   return {
     getAllRoutes,
     getRoutesByPlace,
     getRoutesByCategory,
     getRoutesByCategoryAndPlace,
     getRouteById,
+    updateRoute,
   };
 };

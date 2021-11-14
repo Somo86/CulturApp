@@ -40,7 +40,7 @@ export const RouteViewController: React.FC<{
 
   const onPressViewMap = () => setShowDescription(false);
   const onPressBackToDescription = () => setShowDescription(true);
-  const onPressStart = () => push(`routes/${routeId}/details`);
+  const onPressStart = () => push(`/route/${routeId}/details`);
   const onPressBackToHome = () => push('/home');
 
   return showDescription ? (

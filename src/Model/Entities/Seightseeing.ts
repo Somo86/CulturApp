@@ -3,7 +3,7 @@ type Position = {
   longitude: string;
 };
 
-type Points = {
+export type Points = {
   name: string;
   introduction: string;
   description: string;

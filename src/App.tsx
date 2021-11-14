@@ -6,6 +6,7 @@ import { LoginProvider } from './Provider/Login';
 import { HomeProvider } from './Provider/Home';
 import { RouteProvider } from './Provider/Route';
 import { loadStyles } from './View/Styles/ThemeStyles';
+import { RouteDetailsProvider } from './Provider/RouteDetails';
 
 const App = () => {
   useEffect(() => {
@@ -15,10 +16,14 @@ const App = () => {
   return (
     <GestureHandlerRootView>
       <NativeRouter>
-        <Route exact path='/' component={HomeProvider} />
+        <Route exact path='/' component={LoginProvider} />
         <Route path='/register' component={RegisterProvider} />
         <Route path='/home' component={HomeProvider} />
-        <Route path='/route/:routeId' component={RouteProvider} />
+        <Route exact path='/route/:routeId' component={RouteProvider} />
+        <Route
+          path='/route/:routeId/details'
+          component={RouteDetailsProvider}
+        />
       </NativeRouter>
     </GestureHandlerRootView>
   );
