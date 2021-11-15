@@ -1,8 +1,10 @@
 export const avarage = (values: string[] = []): number => {
   return values.length
-    ? values.reduce((acc, curr) => {
-        return acc + parseInt(curr);
-      }, 0) / values.length
+    ? Math.round(
+        values.reduce((acc, curr) => {
+          return acc + parseInt(curr);
+        }, 0) / values.length,
+      )
     : 0;
 };
 

@@ -23,7 +23,7 @@ export const RouteCard: React.FC<RouteCardProps> = ({
     ? { uri: image }
     : require('../../../assets/images/empty.jpeg');
   return (
-    <Card height={190} marginV-15 onPress={() => onPressCard({ routeId: id })}>
+    <Card height={210} marginV-15 onPress={() => onPressCard({ routeId: id })}>
       <Card.Section
         imageSource={imageSource}
         imageStyle={{ width: '100%', height: 70 }}

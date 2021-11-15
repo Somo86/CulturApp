@@ -47,6 +47,7 @@ const copies = {
 const style = StyleSheet.create({
   container: {
     borderRadius: 12,
+    backgroundColor: 'white',
   },
 });
 

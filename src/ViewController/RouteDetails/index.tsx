@@ -135,9 +135,9 @@ export const RouteDetailsViewController: React.FC<{
           },
           destination: {
             latitude:
-              seightseeing?.points[currentPoint].position.latitude || '0',
+              seightseeing?.points[currentPoint - 1].position.latitude || '0',
             longitude:
-              seightseeing?.points[currentPoint].position.longitude || '0',
+              seightseeing?.points[currentPoint - 1].position.longitude || '0',
           },
         });
     } catch (e) {
