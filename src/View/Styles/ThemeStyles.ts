@@ -10,6 +10,10 @@ export const loadStyles = () => {
     outlineColor: Colors.mainColor,
   });
 
+  ThemeManager.setComponentTheme('RadioButton', {
+    color: Colors.mainColor,
+  });
+
   ThemeManager.setComponentTheme('Text', props => {
     const baseStyle = {
       fontSize: 16,

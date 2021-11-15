@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components/native';
 import { TextField, Button, View } from 'react-native-ui-lib';
-import { ErrorTypes, LoggedInfoType } from '../../ViewController/Login';
+import {
+  ErrorType,
+  ErrorTypes,
+  LoggedInfoType,
+} from '../../ViewController/Login';
 import { useToast, ToastTypes } from '../hooks/useToast';
+import { firebaseAuthErrorsCopies } from '../../utils/firebase';
 
 type LoginViewProps = {
   onEmailChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
   onSubmit: () => void;
   onRegister: () => void;
-  error: ErrorTypes;
+  error: ErrorType;
   loggedInfo: LoggedInfoType;
   email: string;
 };
@@ -21,10 +26,9 @@ const copies = {
   // eslint-disable-next-line quotes
   buttonRegisterLabel: "Registra't",
   error: {
-    name: 'error',
-    password: 'error',
-    email: 'error',
-    login: 'error',
+    ...firebaseAuthErrorsCopies,
+    password: 'El password ha de contenir un mínim de 6 caràcters',
+    email: 'El format del e-mail no és correcte',
   },
   success: {
     register: (user: string) => `Benvingut a CulturApp ${user}`,
@@ -53,9 +57,9 @@ export const LoginView: React.FC<LoginViewProps> = ({
   const { Toast, createToast } = useToast();
 
   useEffect(() => {
-    error === ErrorTypes.LOGINERROR &&
+    error.type === ErrorTypes.LOGINERROR &&
       createToast({
-        content: copies.error.login,
+        content: copies.error[error.code],
         type: ToastTypes.ERROR,
       });
   }, [error]);
@@ -84,7 +88,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
               placeholder={copies.emailPlaceholder}
               onChangeText={onEmailChange}
               error={
-                error === ErrorTypes.EMAILERROR ? copies.error.email : null
+                error.type === ErrorTypes.EMAILERROR ? copies.error.email : null
               }
             />
           </View>
@@ -93,13 +97,13 @@ export const LoginView: React.FC<LoginViewProps> = ({
               placeholder={copies.passwordPlaceholder}
               onChangeText={onPasswordChange}
               error={
-                error === ErrorTypes.PASSWORDERROR
+                error.type === ErrorTypes.PASSWORDERROR
                   ? copies.error.password
                   : null
               }
             />
           </View>
-          <View paddingT-20>
+          <View paddingT-30>
             <Button label={copies.buttonSubmitLabel} onPress={onSubmit} />
           </View>
           <View paddingT-10>

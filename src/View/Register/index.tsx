@@ -15,6 +15,7 @@ import {
   LoggedInfoType,
 } from '../../ViewController/Register';
 import { useToast, ToastTypes } from '../hooks/useToast';
+import { firebaseAuthErrorsCopies } from '../../utils/firebase';
 
 type RegisterViewProps = {
   userTypeValue: UserTypeEnum;
@@ -37,12 +38,10 @@ const copies = {
   radioButtonEntity: 'Sóc entitat cultural',
   buttonLabel: 'Fet',
   error: {
-    'auth/email-already-in-use': 'Aquest usuari ja te un compte',
-    'auth/weak-password':
-      'Contrasenya dèbil. Ha de contenir un mínim de 6 caràcters',
-    name: 'error',
-    password: 'error',
-    email: 'error',
+    ...firebaseAuthErrorsCopies,
+    name: 'El nom és un camp obligatori',
+    password: 'La contrasenya ha de contenir un mínim de 6 caràcters',
+    email: 'El format del e-mail no és correcte',
     // eslint-disable-next-line quotes
     login: "L'usuari no s'ha pogut crear. Torna-ho a probar més tard.",
     alreadyLogged: 'Aquest usuari ja existeix.',
@@ -153,7 +152,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
             }
           />
         </View>
-        <View>
+        <View marginT-30>
           <Button label={copies.buttonLabel} onPress={onSubmit} />
         </View>
       </Container>

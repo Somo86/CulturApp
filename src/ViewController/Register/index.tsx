@@ -3,6 +3,7 @@ import { RegisterView } from '../../View/Register';
 import { UserTypeEnum } from '../../Model/Entities/User';
 import { RegisterviewModelType } from '../../ViewModel/Register';
 import { useHistory } from 'react-router-native';
+import { validateEmail, validateMinLength } from '../../utils/validation';
 
 export enum ErrorTypesEnum {
   FORMERROR,
@@ -44,6 +45,18 @@ export const RegisterViewController = ({
   const onPasswordChange = (password: string) => setPassword(password);
 
   const onSubmit = async () => {
+    if (!validateEmail(email)) {
+      setError({ type: ErrorTypesEnum.FORMERROR, code: 'email' });
+      return;
+    }
+    if (!validateMinLength(name, 2)) {
+      setError({ type: ErrorTypesEnum.FORMERROR, code: 'name' });
+      return;
+    }
+    if (!validateMinLength(password, 6)) {
+      setError({ type: ErrorTypesEnum.FORMERROR, code: 'password' });
+      return;
+    }
     try {
       // Creates a new user if it does not exists
       const { additionalUserInfo } = await viewModel.signInOrCreate(
@@ -58,7 +71,7 @@ export const RegisterViewController = ({
       });
       setloggedInfo({ isNewUser: additionalUserInfo?.isNewUser });
       // Move to LOGIN page
-      push('/');
+      setTimeout(() => push('/'), 3000);
     } catch (e: any) {
       setError({
         type: ErrorTypesEnum.FIREBASEERROR,
