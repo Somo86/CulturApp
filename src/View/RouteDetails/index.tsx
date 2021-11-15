@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Pressable } from 'react-native';
 import { Image, View } from 'react-native-ui-lib';
@@ -8,6 +8,7 @@ import { DetailsIntroduction } from './DetailsIntroduction';
 import { DetailsDescription } from './DetailsDescription';
 import { DetailSteps } from '../../ViewController/RouteDetails';
 import { VoteDialog } from './components/VoteDialog';
+import { useToast, ToastTypes } from '../hooks/useToast';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type RouteDetailsViewProps = {
@@ -15,10 +16,13 @@ type RouteDetailsViewProps = {
   routeDetails: Points | undefined;
   currentStep: DetailSteps;
   currentPoint: number;
+  hasLocationPermisson: boolean;
+  error: string | null;
   onNextStep: () => void;
   onFinishPoint: () => void;
   onBackHome: () => void;
   updateRouteVotes: (x: number) => void;
+  onInitNavigation: () => void;
 };
 
 const FloatingIcon = styled(Pressable)`
@@ -47,13 +51,27 @@ export const RouteDetailsView: React.FC<RouteDetailsViewProps> = ({
   routeDetails,
   currentStep,
   currentPoint,
+  hasLocationPermisson,
+  error,
   onNextStep,
   onFinishPoint,
   onBackHome,
   updateRouteVotes,
+  onInitNavigation,
 }) => {
+  const { Toast, createToast } = useToast();
+
+  useEffect(() => {
+    error &&
+      createToast({
+        content: error,
+        type: ToastTypes.ERROR,
+      });
+  }, [error]);
+
   return (
     <StyledView>
+      <Toast />
       <StyledImageContainer>
         <FloatingIcon onPress={onBackHome}>
           <Icon name='close' color='white' size={40} />
@@ -72,6 +90,8 @@ export const RouteDetailsView: React.FC<RouteDetailsViewProps> = ({
             introduction={routeDetails?.introduction}
             currentPoint={currentPoint}
             onNextStep={onNextStep}
+            onInitNavigation={onInitNavigation}
+            hasLocationPermisson={hasLocationPermisson}
           />
         ) : currentStep === DetailSteps.DESCRIPTION ? (
           <DetailsDescription

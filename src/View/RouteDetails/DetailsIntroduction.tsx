@@ -6,7 +6,9 @@ type DetailsIntroductionProps = {
   title: string | undefined;
   introduction: string | undefined;
   currentPoint: number;
+  hasLocationPermisson: boolean;
   onNextStep: () => void;
+  onInitNavigation: () => void;
 };
 
 const copies = {
@@ -26,6 +28,8 @@ export const DetailsIntroduction: React.FC<DetailsIntroductionProps> = ({
   introduction,
   currentPoint,
   onNextStep,
+  onInitNavigation,
+  hasLocationPermisson,
 }) => {
   return (
     <StyledView>
@@ -40,7 +44,13 @@ export const DetailsIntroduction: React.FC<DetailsIntroductionProps> = ({
         </View>
       </View>
       <View>
-        <Button outline label={copies.followMeButton} onPress={() => {}} />
+        {hasLocationPermisson && (
+          <Button
+            outline
+            label={copies.followMeButton}
+            onPress={onInitNavigation}
+          />
+        )}
         <Button marginT-20 label={copies.readyButton} onPress={onNextStep} />
       </View>
     </StyledView>

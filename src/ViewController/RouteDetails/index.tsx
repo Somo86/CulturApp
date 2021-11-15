@@ -1,10 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { PermissionsAndroid } from 'react-native';
 import { useHistory, useParams } from 'react-router-native';
 import { Route } from '../../Model/Entities/Route';
 import { Seightseeing } from '../../Model/Entities/Seightseeing';
+import { requestAndroidPermission } from '../../utils/android';
 import { documentToData, snaptshotToData } from '../../utils/firebase';
+import {
+  getCurrentLatAndLong,
+  runMapsNavigation,
+} from '../../utils/geolocation';
 import { RouteDetailsView } from '../../View/RouteDetails';
 import { RouteDetailsViewModel } from '../../ViewModel/RouteDetails';
+
+const copies = {
+  permission: {
+    title: 'Localització del dispositiu',
+    message:
+      // eslint-disable-next-line quotes
+      "Per tal d'accedir a les funcionalitats de navegació cal acceptar els permisos de localització",
+    buttonPositive: 'Accepto',
+    buttonNegative: 'No ho accepto',
+  },
+  errors: {
+    // eslint-disable-next-line quotes
+    openMaps: "No s'ha pogut conectar amb Google maps",
+  },
+};
 
 export enum DetailSteps {
   INTRODUCTION,
@@ -17,6 +38,7 @@ export const RouteDetailsViewController: React.FC<{
 }> = ({ viewModel }) => {
   const { routeId } = useParams<{ routeId: string }>();
   const { push } = useHistory();
+  const [error, setError] = useState<string | null>(null);
   const [route, setRoute] = useState<Route>();
   const [seightseeing, setSeightseeing] = useState<
     Seightseeing & { id: string }
@@ -26,6 +48,23 @@ export const RouteDetailsViewController: React.FC<{
   const [currentStep, setCurrentStep] = useState<DetailSteps>(
     DetailSteps.INTRODUCTION,
   );
+  const [hasLocationPermisson, setHasLocationPermission] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState<{
+    currentLatitude: string;
+    currentLongitude: string;
+  } | null>(null);
+
+  useEffect(() => {
+    // Ask permission to acces user current location
+    requestAndroidPermission({
+      permission: PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      title: copies.permission.title,
+      message: copies.permission.message,
+      onGranted: () => setHasLocationPermission(true),
+      buttonPositive: copies.permission.buttonPositive,
+      buttonNegative: copies.permission.buttonNegative,
+    });
+  }, []);
 
   useEffect(() => {
     if (routeId) {
@@ -33,6 +72,15 @@ export const RouteDetailsViewController: React.FC<{
       fetchSeightseeingByRoute(routeId);
     }
   }, [routeId]);
+
+  const getCurrentLocation = async () => {
+    const response = await getCurrentLatAndLong();
+    setCurrentLocation(response);
+  };
+
+  useEffect(() => {
+    hasLocationPermisson && getCurrentLocation();
+  }, [hasLocationPermisson]);
 
   const fecthRouteById = async (routeId: string) => {
     const response = await viewModel.getRouteById(routeId);
@@ -77,6 +125,25 @@ export const RouteDetailsViewController: React.FC<{
   };
 
   const onBackHome = () => push('/home');
+  const onInitNavigation = () => {
+    try {
+      currentLocation &&
+        runMapsNavigation({
+          source: {
+            latitude: currentLocation.currentLatitude,
+            longitude: currentLocation.currentLongitude,
+          },
+          destination: {
+            latitude:
+              seightseeing?.points[currentPoint].position.latitude || '0',
+            longitude:
+              seightseeing?.points[currentPoint].position.longitude || '0',
+          },
+        });
+    } catch (e) {
+      setError(copies.errors.openMaps);
+    }
+  };
 
   return (
     <RouteDetailsView
@@ -84,10 +151,13 @@ export const RouteDetailsViewController: React.FC<{
       routeDetails={seightseeing?.points[currentPoint - 1]}
       currentStep={currentStep}
       currentPoint={currentPoint}
+      error={error}
       onNextStep={onNextStep}
       onFinishPoint={onFinishPoint}
       onBackHome={onBackHome}
       updateRouteVotes={updateRouteVotes}
+      onInitNavigation={onInitNavigation}
+      hasLocationPermisson={hasLocationPermisson}
     />
   );
 };

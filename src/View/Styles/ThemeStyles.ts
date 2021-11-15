@@ -29,8 +29,4 @@ export const loadStyles = () => {
       style: baseStyle,
     };
   });
-
-  ThemeManager.setComponentTheme('View', {
-    backgroundColor: 'white',
-  });
 };
