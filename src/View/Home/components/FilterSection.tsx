@@ -8,6 +8,7 @@ import {
   Button,
   Picker,
   ExpandableSection,
+  Colors,
 } from 'react-native-ui-lib';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { HomeViewProps } from '..';
@@ -21,6 +22,7 @@ export const FilterSection: React.FC<
   Pick<HomeViewProps, 'onPressCategory' | 'selectedCity' | 'onChangeSelectCity'>
 > = ({ onPressCategory, onChangeSelectCity, selectedCity }) => {
   const [showFilters, setShowFilters] = useState(false);
+  const [pressedCategoy, setPressedCategoy] = useState<number | null>(null);
 
   return (
     <>
@@ -35,14 +37,20 @@ export const FilterSection: React.FC<
       </View>
       <ExpandableSection expanded={showFilters}>
         <ScrollView horizontal={true}>
-          {categories.list.map(category => {
+          {categories.list.map((category, index) => {
+            const color =
+              pressedCategoy === index ? Colors.mainColor : '#494949';
+
             return (
               <Pressable
                 key={`category_${category.id}`}
-                onPress={() => onPressCategory(category.id)}>
+                onPress={() => {
+                  setPressedCategoy(index);
+                  onPressCategory(category.id);
+                }}>
                 <View flex centerH paddingV-15 paddingH-15>
-                  <Icon name={category.icon} size={25} />
-                  <Text>{category.label}</Text>
+                  <Icon name={category.icon} size={25} color={color} />
+                  <Text style={{ color }}>{category.label}</Text>
                 </View>
               </Pressable>
             );
