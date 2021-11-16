@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-native';
+import { UserType } from '../../Model/Entities/User';
+import { snaptshotToData } from '../../utils/firebase';
 import { validateEmail, validateMinLength } from '../../utils/validation';
 import { LoginView } from '../../View/Login';
 import { LoginViewModelType } from '../../ViewModel/Login';
+import { UserContextType, useUser } from '../hooks/useUser';
 
 export enum ErrorTypes {
   LOGINERROR,
@@ -27,6 +30,7 @@ export type ErrorType = {
 export const LoginViewController: React.FC<LoginControllerProps> = ({
   viewModel,
 }) => {
+  const { setLoggedUser } = useUser() as UserContextType;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loggedInfo, setloggedInfo] = useState<LoggedInfoType>(null);
@@ -53,6 +57,10 @@ export const LoginViewController: React.FC<LoginControllerProps> = ({
       await viewModel.signIn(email, password);
       // notify user for login success
       setloggedInfo({ success: true });
+      // get user info to save data in global contex
+      const response = await viewModel.getUserByEmail(email);
+      const data = snaptshotToData<UserType>(response);
+      setLoggedUser(data[0]);
       // Move to HOME page
       setTimeout(() => push('/home'), 3000);
     } catch (e: any) {

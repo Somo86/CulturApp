@@ -18,11 +18,17 @@ type getUserType = (
 >;
 
 type addNewUserType = (user: UserType) => Promise<void>;
+type getUserbyEmailType = (
+  email: string,
+) => Promise<
+  FirebaseFirestoreTypes.QuerySnapshot<FirebaseFirestoreTypes.DocumentData>
+>;
 
 export type UserModelType = {
   signInOrCreate: createUserWithEmailAndPasswordType;
   signIn: signInWithEmailAndPasswordType;
   getUser: getUserType;
+  getUserByEmail: getUserbyEmailType;
   addNewUser: addNewUserType;
 };
 
@@ -40,6 +46,9 @@ export const UserModel = (): UserModelType => {
   const getUser: getUserType = id =>
     DB.init.collection(USERS_COLLECTION).doc(id).get();
 
+  const getUserByEmail: getUserbyEmailType = email =>
+    DB.init.collection(USERS_COLLECTION).where('email', '==', email).get();
+
   const addNewUser: addNewUserType = user =>
     DB.init.collection(USERS_COLLECTION).doc(random().toString()).set(user);
 
@@ -47,6 +56,7 @@ export const UserModel = (): UserModelType => {
     signInOrCreate,
     signIn,
     getUser,
+    getUserByEmail,
     addNewUser,
   };
 };

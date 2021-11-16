@@ -4,6 +4,7 @@ import { Route } from '../../Model/Entities/Route';
 import { snaptshotToData } from '../../utils/firebase';
 import { HomeView } from '../../View/Home';
 import { HomeViewModelType } from '../../ViewModel/Home';
+import { UserContextType, useUser } from '../hooks/useUser';
 
 type HomeViewControllerProps = {
   viewModel: HomeViewModelType;
@@ -23,6 +24,7 @@ export const HomeViewController: React.FC<HomeViewControllerProps> = ({
   viewModel,
 }) => {
   const { push } = useHistory();
+  const { type } = useUser() as UserContextType;
   const [routes, setRoutes] = useState<Array<Route & { id: string }> | []>([]);
   const [selectedCity, setSelectedCity] = useState<SelectedCityType>();
   const [selectedCategory, setSelectedCategory] = useState<number>();
@@ -83,13 +85,17 @@ export const HomeViewController: React.FC<HomeViewControllerProps> = ({
 
   const onChangeSelectCity = (city: SelectedCityType) => setSelectedCity(city);
 
+  const onCreationPress = () => push('/creation');
+
   return (
     <HomeView
       routes={routes}
       onPressCard={onPressCard}
       onPressCategory={onPressCategory}
       onChangeSelectCity={onChangeSelectCity}
+      onCreationPress={onCreationPress}
       selectedCity={selectedCity}
+      userType={type}
     />
   );
 };

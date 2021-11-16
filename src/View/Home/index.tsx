@@ -10,24 +10,32 @@ import { RouteCard } from './components/RouteCard';
 import { Route } from '../../Model/Entities/Route';
 import { EmptyResults } from './components/EmptyResults';
 import { FilterSection } from './components/FilterSection';
+import { UserTypeEnum } from '../../Model/Entities/User';
 
 export type HomeViewProps = {
   routes: Array<Route & { id: string }>;
   onPressCard: onPressType;
   onPressCategory: onPressCategoryType;
   onChangeSelectCity: (x: SelectedCityType) => void;
+  onCreationPress: () => void;
   selectedCity?: SelectedCityType;
+  userType?: number;
 };
 
 export const HomeView: React.FC<HomeViewProps> = ({
   routes,
   selectedCity,
+  userType,
   onPressCard,
   onPressCategory,
   onChangeSelectCity,
+  onCreationPress,
 }) => {
   return (
-    <AppLayout showActionBar>
+    <AppLayout
+      showActionBar
+      showCreationButton={userType === UserTypeEnum.ENTITY}
+      onCreationPress={onCreationPress}>
       <View>
         <FilterSection
           onPressCategory={onPressCategory}

@@ -5,6 +5,7 @@ import { avarage } from '../../../utils/maths';
 import { onPressType } from '../../../ViewController/Home';
 import { Route } from '../../../Model/Entities/Route';
 import { minutesToHours } from '../../../utils/time';
+import { toCategoryName } from '../../../utils/pipe';
 
 type RouteCardProps = Route & { id: string } & { onPressCard: onPressType };
 
@@ -34,7 +35,7 @@ export const RouteCard: React.FC<RouteCardProps> = ({
         <View row centerV paddingV-4>
           <Icon name='info' size={20} />
           <Text marginL-5>{place} | </Text>
-          <Text>{categoryId}</Text>
+          <Text>{toCategoryName(categoryId) || null}</Text>
         </View>
         <View row centerV paddingV-4>
           <Icon name='alarm-on' size={20} />
