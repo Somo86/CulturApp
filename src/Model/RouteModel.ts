@@ -19,6 +19,7 @@ export type RouteModelType = {
   ) => Promise<FirebaseFirestoreTypes.QuerySnapshot>;
   getRouteById: (x: string) => Promise<FirebaseFirestoreTypes.DocumentSnapshot>;
   updateRoute: (x: string, y: Route) => Promise<void>;
+  createRoute: (x: number, y: Route) => Promise<void>;
 };
 
 export const RouteModel = (): RouteModelType => {
@@ -53,6 +54,9 @@ export const RouteModel = (): RouteModelType => {
         ...data,
       });
 
+  const createRoute = (id: number, route: Route) =>
+    DB.init.collection(ROUTES_COLLECTION).doc(id.toString()).set(route);
+
   return {
     getAllRoutes,
     getRoutesByPlace,
@@ -60,5 +64,6 @@ export const RouteModel = (): RouteModelType => {
     getRoutesByCategoryAndPlace,
     getRouteById,
     updateRoute,
+    createRoute,
   };
 };

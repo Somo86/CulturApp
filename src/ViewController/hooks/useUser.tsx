@@ -1,8 +1,9 @@
 import React, { useState, useContext, createContext } from 'react';
 type LoggedUserType = {
-  name?: string;
+  completeName?: string;
   email?: string;
   type?: number;
+  id?: string;
 };
 
 export type UserContextType = LoggedUserType & {
