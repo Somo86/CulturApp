@@ -1,3 +1,4 @@
 <resources>
   <color name="windowBackgroundColor">#FFFFFF</color>
+  <color name="textColor">#00FF00</color>
 </resources>

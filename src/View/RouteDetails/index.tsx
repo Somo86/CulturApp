@@ -77,7 +77,7 @@ export const RouteDetailsView: React.FC<RouteDetailsViewProps> = ({
           <Icon name='close' color='white' size={40} />
         </FloatingIcon>
         <Image
-          height={200}
+          style={{ height: 225 }}
           source={{
             uri: route?.image,
           }}

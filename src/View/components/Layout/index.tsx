@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-native';
 import { SafeAreaView } from 'react-native';
-import { ActionBar, Colors } from 'react-native-ui-lib';
+import { ActionBar } from 'react-native-ui-lib';
 import { AppBar } from '../AppBar';
 import { Dimensions } from 'react-native';
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
@@ -21,7 +21,7 @@ const icons = [Home, User];
 const basicIconStyles = { width: 35, height: 35 };
 
 const iconStyles = {
-  active: { ...basicIconStyles, tintColor: Colors.mainColor },
+  active: { ...basicIconStyles, tintColor: '#aa00ff' },
   inactive: { ...basicIconStyles, tintColor: '#757575' },
 };
 

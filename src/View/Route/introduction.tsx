@@ -54,7 +54,7 @@ export const IntroRouteView: React.FC<RouteViewProps> = ({
             <Icon name='chevron-left' color='white' size={40} />
           </FloatingIcon>
           <Image
-            height={200}
+            style={{ height: 200 }}
             source={{
               uri: route?.image,
             }}

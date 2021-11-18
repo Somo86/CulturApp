@@ -10,11 +10,9 @@ import { RouteDetailsProvider } from './Provider/RouteDetails';
 import { RouteCreationProvider } from './Provider/RouteCreation';
 import { UserProvider } from './ViewController/hooks/useUser';
 
-const App = () => {
-  useEffect(() => {
-    loadStyles();
-  }, []);
+loadStyles();
 
+const App = () => {
   return (
     <GestureHandlerRootView>
       <UserProvider>

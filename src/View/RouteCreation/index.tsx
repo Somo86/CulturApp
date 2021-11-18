@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, ScrollView } from 'react-native';
 import { Button, Picker, Text, TextField, View } from 'react-native-ui-lib';
 import styled from 'styled-components/native';
 import categories from '../../assets/json/categories.json';
 import cities from '../../assets/json/cities.json';
-import { ErrorsEnum } from '../../ViewController/RouteCreation';
+import { ErrorsEnum, LoadingStates } from '../../ViewController/RouteCreation';
+import { ToastTypes, useToast } from '../hooks/useToast';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import addImage from '../../assets/images/file-image-plus-outline.png';
 
 const copies = {
   // eslint-disable-next-line quotes
@@ -26,6 +28,12 @@ const copies = {
     place: 'Has de seleccionar una localitat',
     category: 'Has de seleccionar una categoria',
   },
+  uploading: {
+    loading: 'Guardant la image...',
+    done: 'Feina feta!',
+    // eslint-disable-next-line quotes
+    error: "S'ha produït un error al guardar l'arxiu",
+  },
 };
 
 type RouteCreationViewType = {
@@ -36,16 +44,20 @@ type RouteCreationViewType = {
   onPlaceChange: (x: { label: string; value: string }) => void;
   onCategoryChange: (x: { label: string; value: number }) => void;
   onPressCloseView: () => void;
+  onPickImage: () => void;
   onSubmit: () => void;
   selectedPlace: string;
   selectedCategory: number;
   errors: ErrorsEnum | undefined;
+  loadingImage: LoadingStates;
 };
 
-const Container = styled.View`
+const Container = styled.ScrollView`
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding: 25px;
+  height: 800px;
 `;
 
 const StyledHeader = styled.View`
@@ -59,6 +71,10 @@ const StyledHeader = styled.View`
   padding-right: 10px;
 `;
 
+const MultilineView = styled(View)`
+  max-height: 70px;
+`;
+
 export const RouteCreationView: React.FC<RouteCreationViewType> = ({
   onTitleChange,
   onIntroductionChange,
@@ -67,13 +83,27 @@ export const RouteCreationView: React.FC<RouteCreationViewType> = ({
   onPlaceChange,
   onCategoryChange,
   onPressCloseView,
+  onPickImage,
   onSubmit,
   selectedPlace,
   selectedCategory,
   errors,
+  loadingImage,
 }) => {
+  const { Toast, createToast } = useToast();
+
+  useEffect(() => {
+    errors === ErrorsEnum.UPLOADIMAGE
+      ? createToast({
+          content: copies.uploading.error,
+          type: ToastTypes.ERROR,
+        })
+      : null;
+  }, [errors]);
+
   return (
     <View>
+      <Toast />
       <Pressable onPress={onPressCloseView}>
         <StyledHeader>
           <Text h3>{copies.titlePage}</Text>
@@ -89,30 +119,34 @@ export const RouteCreationView: React.FC<RouteCreationViewType> = ({
               error={errors === ErrorsEnum.TITLE ? copies.error.title : null}
             />
           </View>
-          <View>
-            <TextField
-              expandable
-              placeholder={copies.introductionPlaceholder}
-              onChangeText={onIntroductionChange}
-              error={
-                errors === ErrorsEnum.INTRODUCTION
-                  ? copies.error.introduction
-                  : null
-              }
-            />
-          </View>
-          <View>
-            <TextField
-              expandable
-              placeholder={copies.descriptionPlaceholder}
-              onChangeText={onDescriptionChange}
-              error={
-                errors === ErrorsEnum.DESCRIPTION
-                  ? copies.error.description
-                  : null
-              }
-            />
-          </View>
+          <MultilineView>
+            <ScrollView>
+              <TextField
+                multiline={true}
+                placeholder={copies.introductionPlaceholder}
+                onChangeText={onIntroductionChange}
+                error={
+                  errors === ErrorsEnum.INTRODUCTION
+                    ? copies.error.introduction
+                    : null
+                }
+              />
+            </ScrollView>
+          </MultilineView>
+          <MultilineView>
+            <ScrollView>
+              <TextField
+                multiline={true}
+                placeholder={copies.descriptionPlaceholder}
+                onChangeText={onDescriptionChange}
+                error={
+                  errors === ErrorsEnum.DESCRIPTION
+                    ? copies.error.description
+                    : null
+                }
+              />
+            </ScrollView>
+          </MultilineView>
           <View>
             <TextField
               placeholder={copies.lengthPlaceholder}
@@ -147,7 +181,22 @@ export const RouteCreationView: React.FC<RouteCreationViewType> = ({
               ))}
             </Picker>
           </View>
-          <View marginT-30>
+          <View centerH>
+            <Button
+              iconSource={addImage}
+              borderRadius={10}
+              style={{ width: 100, height: 100 }}
+              onPress={onPickImage}
+            />
+            {loadingImage !== LoadingStates.EMPTY && (
+              <Text h5 marginT-10>
+                {loadingImage === LoadingStates.LOADING
+                  ? copies.uploading.loading
+                  : copies.uploading.done}
+              </Text>
+            )}
+          </View>
+          <View marginT-40>
             <Button label={copies.buttonLabel} onPress={onSubmit} />
           </View>
         </Container>

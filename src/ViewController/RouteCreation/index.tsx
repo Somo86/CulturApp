@@ -6,6 +6,7 @@ import { validateIsEmpty, validateMinLength } from '../../utils/validation';
 import { RouteCreationView } from '../../View/RouteCreation';
 import { RouteCreationModelViewType } from '../../ViewModel/RouteCreation';
 import { UserContextType, useUser } from '../hooks/useUser';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 type RouteCreationViewControllerType = {
   viewModel: RouteCreationModelViewType;
@@ -17,6 +18,13 @@ export enum ErrorsEnum {
   INTRODUCTION,
   PLACE,
   CATEGORY,
+  UPLOADIMAGE,
+}
+
+export enum LoadingStates {
+  EMPTY,
+  LOADING,
+  DONE,
 }
 
 const ROUTE_ID = random();
@@ -39,6 +47,8 @@ export const RouteCreationViewController: React.FC<RouteCreationViewControllerTy
       label: '',
       value: 0,
     });
+    const [imageUrl, setImageUrl] = useState('');
+    const [loadingImage, setLodingImage] = useState(LoadingStates.EMPTY);
 
     const onTitleChange = (text: string) => setTitle(text);
     const onIntroductionChange = (text: string) => setIntroduction(text);
@@ -48,6 +58,27 @@ export const RouteCreationViewController: React.FC<RouteCreationViewControllerTy
       setPlace(selection);
     const onCategoryChange = (selection: { label: string; value: number }) =>
       setCategory(selection);
+    const onPickImage = async () => {
+      try {
+        const result = await launchImageLibrary({ mediaType: 'photo' });
+        if (result) {
+          const { uri, fileName } = result.assets?.[0] || {};
+          if (uri && fileName) {
+            setLodingImage(LoadingStates.LOADING);
+            const task = viewModel.uploadFile(uri, fileName);
+
+            await task;
+            const response = await viewModel.getDownloadURL(fileName);
+            setLodingImage(LoadingStates.DONE);
+            setImageUrl(response);
+          }
+        }
+      } catch (e) {
+        setErrors(ErrorsEnum.UPLOADIMAGE);
+        console.log(e);
+      }
+    };
+
     const onSubmit = async () => {
       if (validateIsEmpty(title)) {
         setErrors(ErrorsEnum.TITLE);
@@ -82,7 +113,7 @@ export const RouteCreationViewController: React.FC<RouteCreationViewControllerTy
         place: place.value,
         categoryId: category.value,
         votes: [],
-        image: '',
+        image: imageUrl,
         creatorName: completeName || '',
         creatorId: id || '0',
       };
@@ -101,10 +132,12 @@ export const RouteCreationViewController: React.FC<RouteCreationViewControllerTy
         onPlaceChange={onPlaceChange}
         onCategoryChange={onCategoryChange}
         onPressCloseView={onPressCloseView}
+        onPickImage={onPickImage}
         onSubmit={onSubmit}
         selectedPlace={place.value}
         selectedCategory={category.value}
         errors={errors}
+        loadingImage={loadingImage}
       />
     );
   };
