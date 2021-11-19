@@ -80,6 +80,8 @@ export const RegisterViewController = ({
     }
   };
 
+  const onCancel = () => push('/');
+
   return (
     <RegisterView
       userTypeValue={userType}
@@ -88,6 +90,7 @@ export const RegisterViewController = ({
       onEmailChange={onEmailChange}
       onPasswordChange={onPasswordChange}
       onSubmit={onSubmit}
+      onCancel={onCancel}
       error={error}
       loggedInfo={loggedInfo}
     />

@@ -66,6 +66,7 @@ const Container = styled.View`
   flex-direction: column;
   padding: 25px;
   height: 800px;
+  z-index: 1;
 `;
 
 const MultilineView = styled(View)`
@@ -115,7 +116,6 @@ export const SeightseeingsCreationView: React.FC<SeightseeingsCreationViewProps>
 
     return (
       <View>
-        <Toast />
         <TitleAppBar
           close
           title={copies.titlePage}
@@ -123,6 +123,7 @@ export const SeightseeingsCreationView: React.FC<SeightseeingsCreationViewProps>
         />
         <View>
           <Container>
+            <Toast />
             {seightseeingList.map((seightseeing, index) => {
               return (
                 <SeightseeingCard

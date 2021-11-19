@@ -28,34 +28,42 @@ export const HomeViewController: React.FC<HomeViewControllerProps> = ({
   const [routes, setRoutes] = useState<Array<Route & { id: string }> | []>([]);
   const [selectedCity, setSelectedCity] = useState<SelectedCityType>();
   const [selectedCategory, setSelectedCategory] = useState<number>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchRoutes = async () => {
+    setIsLoading(true);
     // get routes from DB and parse for view
     const response = await viewModel.getAllRoutes();
     const data = snaptshotToData<Route>(response);
 
     setRoutes(data);
+    setIsLoading(false);
   };
 
   const fetchFilteredRoutes = async (filter: string) => {
     // filter routes by place
+    setIsLoading(true);
     const response = await viewModel.getRoutesByPlace(filter);
     const data = snaptshotToData<Route>(response);
 
     setRoutes(data);
+    setIsLoading(false);
   };
 
   const fetchFilteredByCategories = async (categoryId: number) => {
+    setIsLoading(true);
     const response = await viewModel.getRoutesByCategory(categoryId);
     const data = snaptshotToData<Route>(response);
 
     setRoutes(data);
+    setIsLoading(false);
   };
 
   const fetchFilteredByCategoriesAndPlace = async (
     categoryId: number,
     place: string,
   ) => {
+    setIsLoading(true);
     const response = await viewModel.getRoutesByCategoryAndPlace(
       categoryId,
       place,
@@ -63,6 +71,7 @@ export const HomeViewController: React.FC<HomeViewControllerProps> = ({
     const data = snaptshotToData<Route>(response);
 
     setRoutes(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -96,6 +105,7 @@ export const HomeViewController: React.FC<HomeViewControllerProps> = ({
       onCreationPress={onCreationPress}
       selectedCity={selectedCity}
       userType={type}
+      isLoading={isLoading}
     />
   );
 };

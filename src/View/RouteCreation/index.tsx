@@ -189,7 +189,11 @@ export const RouteCreationView: React.FC<RouteCreationViewType> = ({
             )}
           </View>
           <View marginT-40>
-            <Button label={copies.buttonLabel} onPress={onSubmit} />
+            <Button
+              disabled={loadingImage === LoadingStates.LOADING}
+              label={copies.buttonLabel}
+              onPress={onSubmit}
+            />
           </View>
         </Container>
       </ScrollView>

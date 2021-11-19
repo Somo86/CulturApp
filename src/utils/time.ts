@@ -1,3 +1,3 @@
 export const minutesToHours = (minutes: number | undefined): number => {
-  return minutes ? minutes / 60 : 0;
+  return minutes ? parseInt((minutes / 60).toFixed(1)) : 0;
 };

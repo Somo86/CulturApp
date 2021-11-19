@@ -24,6 +24,7 @@ type RegisterViewProps = {
   onEmailChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
   onSubmit: () => void;
+  onCancel: () => void;
   error: ErrorType;
   loggedInfo: LoggedInfoType;
 };
@@ -37,6 +38,7 @@ const copies = {
   radioButtonCitizen: 'Sóc ciutadà',
   radioButtonEntity: 'Sóc entitat cultural',
   buttonLabel: 'Fet',
+  cancelButton: 'Cancelar',
   error: {
     ...firebaseAuthErrorsCopies,
     name: 'El nom és un camp obligatori',
@@ -66,6 +68,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   onEmailChange,
   onPasswordChange,
   onSubmit,
+  onCancel,
   error,
   loggedInfo,
 }) => {
@@ -154,6 +157,14 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
         </View>
         <View marginT-30>
           <Button label={copies.buttonLabel} onPress={onSubmit} />
+        </View>
+        <View marginT-30>
+          <Button
+            link
+            linkColor='#9c27b0'
+            label={copies.cancelButton}
+            onPress={onCancel}
+          />
         </View>
       </Container>
     </AppLayout>

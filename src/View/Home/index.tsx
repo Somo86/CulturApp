@@ -11,6 +11,7 @@ import { Route } from '../../Model/Entities/Route';
 import { EmptyResults } from './components/EmptyResults';
 import { FilterSection } from './components/FilterSection';
 import { UserTypeEnum } from '../../Model/Entities/User';
+import { LoadingResults } from './components/LoadingResults';
 
 export type HomeViewProps = {
   routes: Array<Route & { id: string }>;
@@ -20,12 +21,14 @@ export type HomeViewProps = {
   onCreationPress: () => void;
   selectedCity?: SelectedCityType;
   userType?: number;
+  isLoading: boolean;
 };
 
 export const HomeView: React.FC<HomeViewProps> = ({
   routes,
   selectedCity,
   userType,
+  isLoading,
   onPressCard,
   onPressCategory,
   onChangeSelectCity,
@@ -45,7 +48,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
       </View>
       <View>
         <View marginH-15>
-          {routes.length ? (
+          {isLoading ? (
+            <LoadingResults />
+          ) : routes.length ? (
             routes.map(route => (
               <RouteCard
                 key={`card_${route.id}`}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { Text } from 'react-native-ui-lib';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -21,13 +21,27 @@ const StyledHeader = styled.View`
   padding-right: 10px;
 `;
 
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+
+    elevation: 9,
+  },
+});
+
 export const TitleAppBar: React.FC<TitleAppBarProps> = ({
   title,
   close,
   onPressIcon,
 }) => {
   return (
-    <StyledHeader>
+    <StyledHeader style={styles.shadow}>
       <Text h3>{title}</Text>
       {close && (
         <Pressable onPress={onPressIcon}>

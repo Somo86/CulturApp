@@ -70,7 +70,7 @@ export const SeightseeingsCreationViewController: React.FC<SeightseeingsCreation
     const onNameChange = (text: string) => setName(text);
     const onIntroductionChange = (text: string) => setIntroduction(text);
     const onDescriptionChange = (text: string) => setDescription(text);
-    const onSubmit = () => {
+    const onSubmit = async () => {
       if (isValidForm()) {
         const newPoint = generateSeightseeing();
 
@@ -79,7 +79,10 @@ export const SeightseeingsCreationViewController: React.FC<SeightseeingsCreation
           points: [...seightseeingList, newPoint],
         };
         try {
-          viewModel.createSeightseeing(random().toString(), newSeightseeing);
+          await viewModel.createSeightseeing(
+            random().toString(),
+            newSeightseeing,
+          );
           setShowToast(ToastEnum.SUCCESS);
           setTimeout(() => push('/home'), 3000);
         } catch (e) {

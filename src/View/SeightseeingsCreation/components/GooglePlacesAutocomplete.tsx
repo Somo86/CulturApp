@@ -30,6 +30,7 @@ export const GooglePlacesInput: React.ForwardRefExoticComponent<GooglePlacesInpu
             ref={ref}
             styles={{
               textInput: {
+                color: 'grey',
                 paddingLeft: 0,
                 fontSize: 16,
                 borderBottomColor: '#cfcfcf',
@@ -44,6 +45,7 @@ export const GooglePlacesInput: React.ForwardRefExoticComponent<GooglePlacesInpu
             }}
             textInputProps={{
               onPressIn: () => setStyle({ ...style, flex: 1 }),
+              placeholderTextColor: 'grey',
             }}
             onFail={error => console.error(error)}
             query={{

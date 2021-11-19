@@ -29,6 +29,7 @@ export const useToast = (autoDismiss: number = 3000) => {
         toastProps.type === ToastTypes.ERROR ? '#f44336' : '#ba68c8',
       autoDismiss,
       onDismiss,
+      zIndex: 100,
     });
 
   return {
