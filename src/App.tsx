@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NativeRouter, Route } from 'react-router-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { RegisterProvider } from './Provider/Register';
@@ -9,6 +9,7 @@ import { loadStyles } from './View/Styles/ThemeStyles';
 import { RouteDetailsProvider } from './Provider/RouteDetails';
 import { RouteCreationProvider } from './Provider/RouteCreation';
 import { UserProvider } from './ViewController/hooks/useUser';
+import { SeightseeingsCreationProvider } from './Provider/SeightseeingsCreation';
 
 loadStyles();
 
@@ -25,7 +26,11 @@ const App = () => {
             path='/route/:routeId/details'
             component={RouteDetailsProvider}
           />
-          <Route path='/creation' component={RouteCreationProvider} />
+          <Route exact path='/creation' component={RouteCreationProvider} />
+          <Route
+            path='/creation/:routeId/seightseeings'
+            component={SeightseeingsCreationProvider}
+          />
         </NativeRouter>
       </UserProvider>
     </GestureHandlerRootView>

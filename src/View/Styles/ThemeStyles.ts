@@ -2,7 +2,7 @@ import { Colors, ThemeManager } from 'react-native-ui-lib';
 
 export const loadStyles = () => {
   Colors.loadColors({
-    mainColor: '#aa00ff',
+    mainColor: '#9c27b0',
   });
 
   ThemeManager.setComponentTheme('Button', {

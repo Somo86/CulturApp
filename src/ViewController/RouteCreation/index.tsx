@@ -19,6 +19,7 @@ export enum ErrorsEnum {
   PLACE,
   CATEGORY,
   UPLOADIMAGE,
+  GENERIC,
 }
 
 export enum LoadingStates {
@@ -75,7 +76,6 @@ export const RouteCreationViewController: React.FC<RouteCreationViewControllerTy
         }
       } catch (e) {
         setErrors(ErrorsEnum.UPLOADIMAGE);
-        console.log(e);
       }
     };
 
@@ -118,7 +118,12 @@ export const RouteCreationViewController: React.FC<RouteCreationViewControllerTy
         creatorId: id || '0',
       };
 
-      await viewModel.createRoute(ROUTE_ID, newRoute);
+      try {
+        await viewModel.createRoute(ROUTE_ID, newRoute);
+        push(`/creation/${ROUTE_ID}/seightseeings`);
+      } catch (e) {
+        setErrors(ErrorsEnum.GENERIC);
+      }
     };
 
     const onPressCloseView = () => push('/home');

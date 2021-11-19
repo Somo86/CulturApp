@@ -7,11 +7,10 @@ export type Points = {
   name: string;
   introduction: string;
   description: string;
-  video: string;
   position: Position;
 };
 
 export type Seightseeing = {
-  routeId: string;
+  routeId: number;
   points: Points[];
 };

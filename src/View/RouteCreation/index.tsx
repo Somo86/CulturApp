@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { Pressable, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Button, Picker, Text, TextField, View } from 'react-native-ui-lib';
 import styled from 'styled-components/native';
 import categories from '../../assets/json/categories.json';
 import cities from '../../assets/json/cities.json';
 import { ErrorsEnum, LoadingStates } from '../../ViewController/RouteCreation';
 import { ToastTypes, useToast } from '../hooks/useToast';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { TitleAppBar } from '../components/TitleAppBar';
 import addImage from '../../assets/images/file-image-plus-outline.png';
 
 const copies = {
@@ -27,6 +27,8 @@ const copies = {
     description: 'La descripció és un camp obligatori',
     place: 'Has de seleccionar una localitat',
     category: 'Has de seleccionar una categoria',
+    // eslint-disable-next-line quotes
+    generic: "S'ha produït un error",
   },
   uploading: {
     loading: 'Guardant la image...',
@@ -60,17 +62,6 @@ const Container = styled.ScrollView`
   height: 800px;
 `;
 
-const StyledHeader = styled.View`
-  height: 60px;
-  background-color: white;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 10px;
-  padding-right: 10px;
-`;
-
 const MultilineView = styled(View)`
   max-height: 70px;
 `;
@@ -93,9 +84,11 @@ export const RouteCreationView: React.FC<RouteCreationViewType> = ({
   const { Toast, createToast } = useToast();
 
   useEffect(() => {
-    errors === ErrorsEnum.UPLOADIMAGE
+    errors === ErrorsEnum.UPLOADIMAGE || errors === ErrorsEnum.GENERIC
       ? createToast({
-          content: copies.uploading.error,
+          content: ErrorsEnum.UPLOADIMAGE
+            ? copies.uploading.error
+            : copies.error.generic,
           type: ToastTypes.ERROR,
         })
       : null;
@@ -104,12 +97,11 @@ export const RouteCreationView: React.FC<RouteCreationViewType> = ({
   return (
     <View>
       <Toast />
-      <Pressable onPress={onPressCloseView}>
-        <StyledHeader>
-          <Text h3>{copies.titlePage}</Text>
-          <Icon name='close' color='grey' size={40} />
-        </StyledHeader>
-      </Pressable>
+      <TitleAppBar
+        close
+        title={copies.titlePage}
+        onPressIcon={onPressCloseView}
+      />
       <ScrollView>
         <Container>
           <View paddingT-40>
