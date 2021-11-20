@@ -45,7 +45,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
         iconStyle: iconStyles.inactive,
         onPress: () => {
           setPressedIcon(index);
-          index === 0 ? push('/home') : push('/user');
+          index === 0 ? push('/home') : push('/profile');
         },
       };
     }),

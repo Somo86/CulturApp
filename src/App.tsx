@@ -10,6 +10,7 @@ import { RouteDetailsProvider } from './Provider/RouteDetails';
 import { RouteCreationProvider } from './Provider/RouteCreation';
 import { UserProvider } from './ViewController/hooks/useUser';
 import { SeightseeingsCreationProvider } from './Provider/SeightseeingsCreation';
+import { ProfileProvider } from './Provider/profile';
 
 loadStyles();
 
@@ -20,6 +21,7 @@ const App = () => {
         <NativeRouter>
           <Route exact path='/' component={LoginProvider} />
           <Route path='/register' component={RegisterProvider} />
+          <Route path='/profile' component={ProfileProvider} />
           <Route path='/home' component={HomeProvider} />
           <Route exact path='/route/:routeId' component={RouteProvider} />
           <Route
