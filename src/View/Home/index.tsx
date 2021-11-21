@@ -46,7 +46,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
           selectedCity={selectedCity}
         />
       </View>
-      <View>
+      <View paddingB-40>
         <View marginH-15>
           {isLoading ? (
             <LoadingResults />

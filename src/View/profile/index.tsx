@@ -45,10 +45,14 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
           </View>
         </RadioGroup>
         <View paddingT-40>
-          <TextField value={completeName} disabled />
+          <TextField
+            value={completeName}
+            editable={false}
+            disabledColor='grey'
+          />
         </View>
         <View>
-          <TextField value={email} disabled />
+          <TextField value={email} editable={false} disabledColor='grey' />
         </View>
       </Container>
     </AppLayout>
