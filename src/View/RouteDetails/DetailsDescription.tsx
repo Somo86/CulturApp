@@ -19,21 +19,23 @@ const StyledView = styled(View)`
   justify-content: space-between;
 `;
 
+const ContentView = styled(View)`
+  max-height: 90%;
+`;
+
 export const DetailsDescription: React.FC<DetailsDescriptionProps> = ({
   description,
   onFinishPoint,
 }) => {
   return (
     <StyledView>
+      <ContentView paddingV-15>
+        <ScrollView>
+          <Text>{description}</Text>
+        </ScrollView>
+      </ContentView>
       <View>
-        <View paddingV-15>
-          <ScrollView>
-            <Text>{description}</Text>
-          </ScrollView>
-        </View>
-      </View>
-      <View>
-        <Button marginT-20 label={copies.finish} onPress={onFinishPoint} />
+        <Button marginT-10 label={copies.finish} onPress={onFinishPoint} />
       </View>
     </StyledView>
   );

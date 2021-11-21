@@ -17,7 +17,7 @@ export const SeightseeingCard: React.FC<SeightseeingCardProps> = ({
   content,
 }) => {
   return (
-    <Card backgroundColor='#9c27b0' marginB-10 padding-8>
+    <Card backgroundColor='#9c27b0' marginB-10 paddingV-8 paddingH-12 marginR-8>
       <View row centerV>
         <Icon name='flag' color='white' size={35} />
         <StyledText>{content}</StyledText>

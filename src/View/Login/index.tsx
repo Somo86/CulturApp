@@ -96,6 +96,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
             <TextField
               placeholder={copies.passwordPlaceholder}
               onChangeText={onPasswordChange}
+              secureTextEntry
               error={
                 error.type === ErrorTypes.PASSWORDERROR
                   ? copies.error.password

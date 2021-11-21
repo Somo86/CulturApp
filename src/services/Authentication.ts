@@ -10,12 +10,13 @@ export type signInWithEmailAndPasswordType = (
   password: string,
 ) => Promise<FirebaseAuthTypes.UserCredential>;
 
-// Authenticate user by username and password
+// Authenticate or create user by username and password
 export const createUserWithEmailAndPassword: createUserWithEmailAndPasswordType =
   (username, password) => {
     return auth().createUserWithEmailAndPassword(username, password);
   };
 
+// Authenticate user by username and password
 export const signInWithEmailAndPassword: signInWithEmailAndPasswordType = (
   username,
   password,

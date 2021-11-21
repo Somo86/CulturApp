@@ -124,14 +124,18 @@ export const SeightseeingsCreationView: React.FC<SeightseeingsCreationViewProps>
         <View>
           <Container>
             <Toast />
-            {seightseeingList.map((seightseeing, index) => {
-              return (
-                <SeightseeingCard
-                  key={`card_${seightseeing.name}_${index}`}
-                  content={`${index + 1}. ${seightseeing.name}`}
-                />
-              );
-            })}
+            <View>
+              <ScrollView horizontal>
+                {seightseeingList.map((seightseeing, index) => {
+                  return (
+                    <SeightseeingCard
+                      key={`card_${seightseeing.name}_${index}`}
+                      content={`${index + 1}. ${seightseeing.name}`}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </View>
             <View paddingT-40>
               <TextField
                 ref={refName}

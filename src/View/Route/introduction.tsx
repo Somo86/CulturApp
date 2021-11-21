@@ -40,6 +40,12 @@ const FloatingIcon = styled(Pressable)`
   z-index: 3;
 `;
 
+const IntroductionText = styled(Text)`
+  font-style: italic;
+  color: #9e9e9e;
+  margin-bottom: 10px;
+`;
+
 export const IntroRouteView: React.FC<RouteViewProps> = ({
   route,
   onPressViewMap,
@@ -66,7 +72,8 @@ export const IntroRouteView: React.FC<RouteViewProps> = ({
             <Button outline label={copies.mapButton} onPress={onPressViewMap} />
           </View>
           <View paddingV-20>
-            <Text>{route?.introduction}</Text>
+            <IntroductionText>{route?.introduction}</IntroductionText>
+            <Text>{route?.description}</Text>
             <View row centerV marginT-20>
               <Text>
                 {`Durada aprox. ${minutesToHours(
