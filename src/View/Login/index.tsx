@@ -85,6 +85,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
           </View>
           <View>
             <TextField
+              testID='email'
               placeholder={copies.emailPlaceholder}
               onChangeText={onEmailChange}
               error={
@@ -94,6 +95,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
           </View>
           <View>
             <TextField
+              testID='password'
               placeholder={copies.passwordPlaceholder}
               onChangeText={onPasswordChange}
               secureTextEntry

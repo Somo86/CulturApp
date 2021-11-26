@@ -5,7 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --watch",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint 'src/**/*.{js,ts,tsx}' --fix"
   },
@@ -47,20 +47,10 @@
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-test-renderer": "17.0.2",
+    "ts-jest": "^26.0",
     "typescript": "^3.8.3"
   },
   "resolutions": {
     "@types/react": "^17"
-  },
-  "jest": {
-    "preset": "react-native",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   }
 }

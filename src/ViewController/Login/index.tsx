@@ -63,7 +63,7 @@ export const LoginViewController: React.FC<LoginControllerProps> = ({
       setLoggedUser(data[0]);
       // Move to HOME page
       setTimeout(() => push('/home'), 3000);
-    } catch (e: any) {
+    } catch (e) {
       setError({
         type: ErrorTypes.LOGINERROR,
         code: e.code,

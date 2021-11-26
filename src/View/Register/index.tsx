@@ -29,7 +29,7 @@ type RegisterViewProps = {
   loggedInfo: LoggedInfoType;
 };
 
-const copies = {
+export const copies = {
   namePlaceholder: 'Nom i cognoms',
   // eslint-disable-next-line quotes
   entityNamePlaceholder: "Nom de l'entitat cultural",
@@ -111,6 +111,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
         <View paddingT-40>
           {userTypeValue === UserTypeEnum.CITIZEN && (
             <TextField
+              testID='name'
               placeholder={copies.namePlaceholder}
               onChangeText={onNameChange}
               error={
@@ -122,6 +123,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
           )}
           {userTypeValue === UserTypeEnum.ENTITY && (
             <TextField
+              testID='nameEntity'
               placeholder={copies.entityNamePlaceholder}
               onChangeText={onNameChange}
               error={
@@ -134,6 +136,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
         </View>
         <View>
           <TextField
+            testID='email'
             placeholder={copies.emailPlaceholder}
             onChangeText={onEmailChange}
             error={
@@ -145,6 +148,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
         </View>
         <View>
           <TextField
+            testID='password'
             placeholder={copies.passwordPlaceholder}
             onChangeText={onPasswordChange}
             error={

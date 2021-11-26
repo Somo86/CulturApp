@@ -13,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { HomeViewProps } from '..';
 
-const copies = {
+export const copies = {
   buttonLabel: 'Filtres',
   selectPlace: 'Selecciona ubicació',
 };
@@ -43,6 +43,7 @@ export const FilterSection: React.FC<
 
             return (
               <Pressable
+                testID='category_filter'
                 key={`category_${category.id}`}
                 onPress={() => {
                   setPressedCategoy(index);
@@ -58,6 +59,7 @@ export const FilterSection: React.FC<
         </ScrollView>
         <View paddingH-15>
           <Picker
+            testID='picker'
             placeholder={copies.selectPlace}
             showSearch
             value={selectedCity}
