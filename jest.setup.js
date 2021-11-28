@@ -15,3 +15,4 @@ jest.mock('react-native-ui-lib/src/incubator/panView', () => {});
 jest.mock('react-native-ui-lib/src/incubator/TransitionView', () => {});
 jest.mock('react-native-ui-lib/src/components/tabController', () => {});
 jest.mock('react-native-vector-icons/MaterialIcons', () => Icon);
+jest.mock('@react-native-community/geolocation', () => {});

@@ -25,7 +25,7 @@ export const VoteStar: React.FC<VoteStarProps> = ({
   };
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} testID={`star_${position}`}>
       <Icon
         name='star-rate'
         color={status === 1 ? colors.active : colors.pasive}

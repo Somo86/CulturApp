@@ -8,7 +8,7 @@ type DetailsDescriptionProps = {
   onFinishPoint: () => void;
 };
 
-const copies = {
+export const copies = {
   finish: 'Fet',
 };
 

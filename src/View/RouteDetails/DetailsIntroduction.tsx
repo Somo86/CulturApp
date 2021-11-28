@@ -11,7 +11,7 @@ type DetailsIntroductionProps = {
   onInitNavigation: () => void;
 };
 
-const copies = {
+export const copies = {
   followMeButton: 'Portam-hi!',
   readyButton: 'Ja hi sóc!',
 };

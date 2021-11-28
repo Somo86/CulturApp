@@ -37,7 +37,7 @@ const VOTE_STAR: VoteStarType[] = [
   },
 ];
 
-const copies = {
+export const copies = {
   // eslint-disable-next-line quotes
   header: "¿Què t'ha semblat aquest itinerari?",
   close: 'Tanca',

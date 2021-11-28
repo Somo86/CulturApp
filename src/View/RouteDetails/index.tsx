@@ -99,7 +99,7 @@ export const RouteDetailsView: React.FC<RouteDetailsViewProps> = ({
             onFinishPoint={onFinishPoint}
           />
         ) : (
-          <View>
+          <View testID='vote_view'>
             <VoteDialog
               onBackHome={onBackHome}
               updateRouteVotes={updateRouteVotes}

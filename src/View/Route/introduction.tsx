@@ -14,7 +14,7 @@ type RouteViewProps = {
   onPressBackToHome: () => void;
 };
 
-const copies = {
+export const copies = {
   mapButton: 'Veure itinerari',
   startButton: 'Comença',
 };
