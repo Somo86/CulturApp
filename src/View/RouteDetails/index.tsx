@@ -18,11 +18,14 @@ type RouteDetailsViewProps = {
   currentPoint: number;
   hasLocationPermisson: boolean;
   error: string | null;
+  isVideoVisible: boolean;
   onNextStep: () => void;
   onFinishPoint: () => void;
   onBackHome: () => void;
   updateRouteVotes: (x: number) => void;
   onInitNavigation: () => void;
+  onPlay: () => void;
+  onCloseVideo: () => void;
 };
 
 const FloatingIcon = styled(Pressable)`
@@ -53,11 +56,14 @@ export const RouteDetailsView: React.FC<RouteDetailsViewProps> = ({
   currentPoint,
   hasLocationPermisson,
   error,
+  isVideoVisible,
   onNextStep,
   onFinishPoint,
   onBackHome,
   updateRouteVotes,
   onInitNavigation,
+  onPlay,
+  onCloseVideo,
 }) => {
   const { Toast, createToast } = useToast();
 
@@ -96,7 +102,12 @@ export const RouteDetailsView: React.FC<RouteDetailsViewProps> = ({
         ) : currentStep === DetailSteps.DESCRIPTION ? (
           <DetailsDescription
             description={routeDetails?.description}
+            video={routeDetails?.video}
+            thumbnail={route?.image}
+            isVideoVisible={isVideoVisible}
             onFinishPoint={onFinishPoint}
+            onPlay={onPlay}
+            onCloseVideo={onCloseVideo}
           />
         ) : (
           <View testID='vote_view'>

@@ -53,6 +53,7 @@ export const RouteDetailsViewController: React.FC<{
     currentLatitude: string;
     currentLongitude: string;
   } | null>(null);
+  const [isVideoVisible, setIsVideoVisible] = useState(false);
 
   useEffect(() => {
     // Ask permission to acces user current location
@@ -145,6 +146,9 @@ export const RouteDetailsViewController: React.FC<{
     }
   };
 
+  const onPlay = () => setIsVideoVisible(true);
+  const onCloseVideo = () => setIsVideoVisible(false);
+
   return (
     <RouteDetailsView
       route={route}
@@ -152,12 +156,15 @@ export const RouteDetailsViewController: React.FC<{
       currentStep={currentStep}
       currentPoint={currentPoint}
       error={error}
+      isVideoVisible={isVideoVisible}
+      hasLocationPermisson={hasLocationPermisson}
       onNextStep={onNextStep}
       onFinishPoint={onFinishPoint}
       onBackHome={onBackHome}
       updateRouteVotes={updateRouteVotes}
       onInitNavigation={onInitNavigation}
-      hasLocationPermisson={hasLocationPermisson}
+      onPlay={onPlay}
+      onCloseVideo={onCloseVideo}
     />
   );
 };
