@@ -6,6 +6,7 @@ import { random } from '../../utils/maths';
 import { validateIsEmpty, validateMinLength } from '../../utils/validation';
 import { SeightseeingsCreationView } from '../../View/SeightseeingsCreation';
 import { SeightseeingsCreationViewModelType } from '../../ViewModel/SeightseeingsCreation';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 type SeightseeingsCreationViewControllerProps = {
   viewModel: SeightseeingsCreationViewModelType;
@@ -23,6 +24,12 @@ export enum ToastEnum {
   FAIL,
 }
 
+export enum LoadingStates {
+  EMPTY,
+  LOADING,
+  DONE,
+}
+
 export const SeightseeingsCreationViewController: React.FC<SeightseeingsCreationViewControllerProps> =
   ({ viewModel }) => {
     const { routeId } = useParams<{ routeId: string }>();
@@ -33,8 +40,10 @@ export const SeightseeingsCreationViewController: React.FC<SeightseeingsCreation
     const [introduction, setIntroduction] = useState('');
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState<Point>({ lat: 0, lng: 0 });
+    const [video, setVideo] = useState<string | null>(null);
     const [seightseeingList, setSeightseeing] = useState<Points[]>([]);
     const [showToast, setShowToast] = useState(ToastEnum.NONE);
+    const [loadingUpload, setLoadingUpload] = useState(LoadingStates.EMPTY);
 
     const GoogleAutocompleteRef = useRef();
 
@@ -46,6 +55,7 @@ export const SeightseeingsCreationViewController: React.FC<SeightseeingsCreation
         latitude: location.lat.toString(),
         longitude: location.lng.toString(),
       },
+      video,
     });
 
     const isValidForm = () => {
@@ -92,6 +102,11 @@ export const SeightseeingsCreationViewController: React.FC<SeightseeingsCreation
       }
     };
 
+    const clearUploadVideo = () => {
+      setVideo(null);
+      setLoadingUpload(LoadingStates.EMPTY);
+    };
+
     const onAddSeightseeing = ({
       refName,
       refIntroduction,
@@ -104,6 +119,7 @@ export const SeightseeingsCreationViewController: React.FC<SeightseeingsCreation
         refIntroduction && refIntroduction.current.clear();
         refDescription && refDescription.current.clear();
         GoogleAutocompleteRef.current && GoogleAutocompleteRef.current.clear();
+        clearUploadVideo();
       }
     };
 
@@ -113,6 +129,26 @@ export const SeightseeingsCreationViewController: React.FC<SeightseeingsCreation
 
     const onPressCloseView = () => push('/home');
 
+    const onPickVideo = async () => {
+      try {
+        const result = await launchImageLibrary({ mediaType: 'video' });
+        if (result) {
+          const { uri, fileName } = result.assets?.[0] || {};
+          if (uri && fileName) {
+            setLoadingUpload(LoadingStates.LOADING);
+            const task = await viewModel.uploadFile(uri, fileName);
+
+            await task;
+            const response = await viewModel.getDownloadURL(fileName);
+            setLoadingUpload(LoadingStates.DONE);
+            setVideo(response);
+          }
+        }
+      } catch (e) {
+        setShowToast(ToastEnum.FAIL);
+      }
+    };
+
     return (
       <SeightseeingsCreationView
         onNameChange={onNameChange}
@@ -121,11 +157,13 @@ export const SeightseeingsCreationViewController: React.FC<SeightseeingsCreation
         onSubmit={onSubmit}
         onAddSeightseeing={onAddSeightseeing}
         onPressCloseView={onPressCloseView}
+        onPressPlaceSelection={onPressPlaceSelection}
+        onPickVideo={onPickVideo}
         errors={errors}
         seightseeingList={seightseeingList}
-        onPressPlaceSelection={onPressPlaceSelection}
         GoogleAutocompleteRef={GoogleAutocompleteRef}
         showToast={showToast}
+        loadingVideo={loadingUpload}
       />
     );
   };

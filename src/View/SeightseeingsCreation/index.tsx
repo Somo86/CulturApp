@@ -1,9 +1,10 @@
 import React, { MutableRefObject, useRef, useEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { Button, TextField, View, Colors } from 'react-native-ui-lib';
+import { Button, TextField, View, Colors, Text } from 'react-native-ui-lib';
 import styled from 'styled-components/native';
 import {
   ErrorsEnum,
+  LoadingStates,
   ToastEnum,
 } from '../../ViewController/SeightseeingsCreation';
 import { TitleAppBar } from '../components/TitleAppBar';
@@ -13,6 +14,7 @@ import { GooglePlacesInput } from './components/GooglePlacesAutocomplete';
 import { Point } from 'react-native-google-places-autocomplete';
 import { ToastTypes, useToast } from '../hooks/useToast';
 import plus from '../../assets/images/plus.png';
+import videoPlus from '../../assets/images/video-plus.png';
 
 const copies = {
   // eslint-disable-next-line quotes
@@ -38,6 +40,11 @@ const copies = {
     // eslint-disable-next-line quotes
     fail: "S'ha produït un error",
   },
+  uploading: {
+    // eslint-disable-next-line quotes
+    loading: "Guardant l'arxiu de vídeo...",
+    done: 'Feina feta!',
+  },
 };
 
 type onAddParams = {
@@ -54,10 +61,12 @@ type SeightseeingsCreationViewProps = {
   onAddSeightseeing: (x: onAddParams) => void;
   onPressCloseView: () => void;
   onPressPlaceSelection: (x: Point | undefined) => void;
+  onPickVideo: () => void;
   errors: ErrorsEnum | undefined;
   seightseeingList: Points[];
   GoogleAutocompleteRef: React.Ref<any>;
   showToast: ToastEnum;
+  loadingVideo: LoadingStates;
 };
 
 const Container = styled.View`
@@ -88,10 +97,12 @@ export const SeightseeingsCreationView: React.FC<SeightseeingsCreationViewProps>
     onAddSeightseeing,
     onPressCloseView,
     onPressPlaceSelection,
+    onPickVideo,
     errors,
     seightseeingList,
     GoogleAutocompleteRef,
     showToast,
+    loadingVideo,
   }) => {
     const { Toast, createToast } = useToast();
 
@@ -102,10 +113,14 @@ export const SeightseeingsCreationView: React.FC<SeightseeingsCreationViewProps>
     useEffect(() => {
       showToast === ToastEnum.SUCCESS || showToast === ToastEnum.FAIL
         ? createToast({
-            content: ToastEnum.SUCCESS
-              ? copies.toast.success
-              : copies.toast.fail,
-            type: ToastEnum.SUCCESS ? ToastTypes.INFO : ToastTypes.ERROR,
+            content:
+              showToast === ToastEnum.SUCCESS
+                ? copies.toast.success
+                : copies.toast.fail,
+            type:
+              showToast === ToastEnum.SUCCESS
+                ? ToastTypes.INFO
+                : ToastTypes.ERROR,
           })
         : null;
     }, [showToast]);
@@ -179,8 +194,25 @@ export const SeightseeingsCreationView: React.FC<SeightseeingsCreationViewProps>
                 />
               </ScrollView>
             </MultilineView>
+            <View centerH>
+              <Button
+                iconSource={videoPlus}
+                iconStyle={{ width: 40 }}
+                borderRadius={10}
+                style={{ width: 100, height: 100 }}
+                onPress={onPickVideo}
+              />
+              {loadingVideo !== LoadingStates.EMPTY && (
+                <Text h5 marginT-10>
+                  {loadingVideo === LoadingStates.LOADING
+                    ? copies.uploading.loading
+                    : copies.uploading.done}
+                </Text>
+              )}
+            </View>
             <View marginT-40>
               <Button
+                disabled={loadingVideo === LoadingStates.LOADING}
                 iconSource={plus}
                 iconStyle={IconStyle}
                 label={copies.buttonAddSeightseeingLabel}
@@ -189,7 +221,11 @@ export const SeightseeingsCreationView: React.FC<SeightseeingsCreationViewProps>
               />
             </View>
             <View marginT-20>
-              <Button label={copies.buttonLabel} onPress={onSubmit} />
+              <Button
+                label={copies.buttonLabel}
+                onPress={onSubmit}
+                disabled={loadingVideo === LoadingStates.LOADING}
+              />
             </View>
           </Container>
         </View>

@@ -8,7 +8,7 @@ export type Points = {
   introduction: string;
   description: string;
   position: Position;
-  video?: string;
+  video?: string | null;
 };
 
 export type Seightseeing = {
