@@ -1,4 +1,5 @@
 import storage, { FirebaseStorageTypes } from '@react-native-firebase/storage';
+import RNFS from 'react-native-fs';
 
 type uploadFileParams = {
   uri: string;
@@ -10,6 +11,14 @@ export const uploadFile = ({
   filename,
 }: uploadFileParams): FirebaseStorageTypes.Task => {
   return storage().ref(filename).putFile(uri);
+};
+
+export const uploadVideo = async ({
+  uri,
+  filename,
+}: uploadFileParams): Promise<FirebaseStorageTypes.Task> => {
+  const data = await RNFS.readFile(uri, 'base64');
+  return storage().ref(filename).putString(data, 'base64');
 };
 
 export const getDownloadUrl = (filename: string): Promise<string> => {

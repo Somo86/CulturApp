@@ -24,6 +24,7 @@ jest.mock('../../src/utils/firebase', () => ({
   snaptshotToData: (data: any) => data,
   documentToData: (data: any) => data,
 }));
+jest.mock('react-native-video-player', () => () => null);
 
 const routeId = 12;
 
